@@ -88,26 +88,26 @@ const PLAYER_SPRITE_JUMP = [
 ];
 
 const PLAYER_SPRITE_JUMP_RIGHT = [
-    { src: "sloth/jr1" },
-    { src: "sloth/jr2" },
-    { src: "sloth/jr3" },
-    { src: "sloth/jr4" },
-    { src: "sloth/jr5" },
+    { src: "sloth/jump_right1" },
+    { src: "sloth/jump_right2" },
+    { src: "sloth/jump_right3" },
+    { src: "sloth/jump_right4" },
+    { src: "sloth/jump_right5" },
 
-    { src: "sloth/jr6" },
-    { src: "sloth/jr7" },
-    { src: "sloth/jr8" },
-    { src: "sloth/jr9" },
-    { src: "sloth/jr8" },
+    { src: "sloth/jump_right6" },
+    { src: "sloth/jump_right7" },
+    { src: "sloth/jump_right8" },
+    { src: "sloth/jump_right9" },
+    { src: "sloth/jump_right8" },
 
-    { src: "sloth/jr7" },
-    { src: "sloth/jr6" },
-    { src: "sloth/jr5" },
-    { src: "sloth/jr4" },
-    { src: "sloth/jr3" },
+    { src: "sloth/jump_right7" },
+    { src: "sloth/jump_right6" },
+    { src: "sloth/jump_right5" },
+    { src: "sloth/jump_right4" },
+    { src: "sloth/jump_right3" },
 
-    { src: "sloth/jr2" },
-    { src: "sloth/jr1" },
+    { src: "sloth/jump_right2" },
+    { src: "sloth/jump_right1" },
 ];
 
 const PLAYER_SPRITE_JUMP_LEFT = [
@@ -133,16 +133,30 @@ const PLAYER_SPRITE_JUMP_LEFT = [
     { src: "sloth/jump_left1" },
 ];
 
-[PLAYER_SPRITE_LEFT, PLAYER_SPRITE_RIGHT, PLAYER_SPRITE_CROUCH, PLAYER_SPRITE_JUMP, PLAYER_SPRITE_JUMP_RIGHT, PLAYER_SPRITE_JUMP_LEFT].forEach(array => {
+const ALL_DATA = [PLAYER_SPRITE_LEFT, PLAYER_SPRITE_RIGHT, PLAYER_SPRITE_CROUCH, PLAYER_SPRITE_JUMP, PLAYER_SPRITE_JUMP_RIGHT, PLAYER_SPRITE_JUMP_LEFT];
+
+var imagesToLoad = 0;
+
+ALL_DATA.forEach(array => {
+    imagesToLoad += array.length;
     array.forEach(e => {
         // create Image objects for all sprite image definitions, on an `img` property
         var img = new Image();
         e.img = img;
         img.onload = () => {
-            // when image is loaded, save its width/height, scaled for game
-            e.width = img.naturalWidth / 10;
-            e.height = img.naturalHeight / 10;
+            // when image is loaded, save its width/height, scaled for game and decrease imagesToLoad by one
+            imagesToLoad--;
+            //console.log(imagesToLoad);
+            e.width = img.naturalWidth * 6;
+            e.height = img.naturalHeight * 6;
+            if (imagesToLoad == 0) {
+                startGame();
+            }
         };
         img.src = e.src + ".png";
     });
 });
+
+
+//varibeale imagestoload put all of game.js in it it is equal to lenght of all arrays doint start game.js till it ready // if imagestoload > numberofimages / numberofimages = lenghts of all arays
+//make all the images small becuase thing
