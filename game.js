@@ -77,7 +77,7 @@ function startGame() {
         timer = setInterval(gravity, 50);
         timer = setInterval(updateCanvas, 30);
         timer = setInterval(() => {
-            console.log("xMomentum", xMomentum, "frameJumpRight", frameJumpRight, "onGround", onGround, "crouching", crouching);
+            console.log("frameJunmpRight", frameJumpRight, "fraemCeoch", frameCrouch, "onGround", onGround, "unCrouching", unCrouching);
             setSpeed();
             frameUpdate();
             directionCheck();
@@ -290,6 +290,9 @@ function startGame() {
                 frameCrouch = 8;
             } else if (frameCrouch >= PLAYER_SPRITE_CROUCH.length) {
                 frameCrouch = 23;
+            }
+            if (frameCrouch == 22) {
+                unCrouching = false;
             }
         }
         if (shouldIncrementFrameJump()) {
