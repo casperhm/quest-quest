@@ -74,7 +74,7 @@ function startGame() {
 
         // This timer sets the framerate.
         // 10 means 10 milliseconds between frames (100 frames per second)
-        timer = setInterval(gravity, 50);
+        timer = setInterval(gravity, 15);
         timer = setInterval(updateCanvas, 30);
         timer = setInterval(() => {
             console.log("frameJunmpRight", frameJumpRight, "fraemCeoch", frameCrouch, "onGround", onGround, "unCrouching", unCrouching);
@@ -134,13 +134,13 @@ function startGame() {
         }
         if (jumpKey && (leftKey || rightKey)) {
             if (xMomentum < 0) {
-                xMomentum += 10;
+                xMomentum += 20;
                 onGround = false;
-                playerXPosition += 5;
+                playerXPosition += 15;
             } else if (xMomentum => 0) {
-                xMomentum -= 10;
+                xMomentum -= 20;
                 onGround = false;
-                playerXPosition -= 5;
+                playerXPosition -= 15;
             }
         }
     }
@@ -320,7 +320,7 @@ function startGame() {
     }
     function jump() {
         if (!jumping) {
-            momentum = 150;
+            momentum = 300;
         }
         jumping = true;
     }
@@ -330,6 +330,7 @@ function startGame() {
             xMomentum = -150;
         }
         jumping = true;
+        playerSpeed = 6;
     }
     function jumpRight() {
         if (!jumping) {
