@@ -133,7 +133,17 @@ const PLAYER_SPRITE_JUMP_LEFT = [
     { src: "sloth/jump_left1" },
 ];
 
-const ALL_DATA = [PLAYER_SPRITE_LEFT, PLAYER_SPRITE_RIGHT, PLAYER_SPRITE_CROUCH, PLAYER_SPRITE_JUMP, PLAYER_SPRITE_JUMP_RIGHT, PLAYER_SPRITE_JUMP_LEFT];
+const SPAWN_CAVE_BACKROUND = [
+    { src: "backrounds/spawn_cave1" },
+    { src: "backrounds/spawn_cave2" },
+    { src: "backrounds/spawn_cave3" },
+    { src: "backrounds/spawn_cave4" },
+    { src: "backrounds/spawn_cave5" },
+    { src: "backrounds/spawn_cave6" },
+    { src: "backrounds/spawn_cave7" },
+];
+
+const ALL_DATA = [PLAYER_SPRITE_LEFT, PLAYER_SPRITE_RIGHT, PLAYER_SPRITE_CROUCH, PLAYER_SPRITE_JUMP, PLAYER_SPRITE_JUMP_RIGHT, PLAYER_SPRITE_JUMP_LEFT, SPAWN_CAVE_BACKROUND];
 
 var imagesToLoad = 0;
 
@@ -147,8 +157,8 @@ ALL_DATA.forEach(array => {
             // when image is loaded, save its width/height, scaled for game and decrease imagesToLoad by one
             imagesToLoad--;
             //console.log(imagesToLoad);
-            e.width = img.naturalWidth * 6;
-            e.height = img.naturalHeight * 6;
+            e.width = img.naturalWidth * 4;
+            e.height = img.naturalHeight * 4;
             if (imagesToLoad == 0) {
                 startGame();
             }

@@ -9,8 +9,8 @@
 function startGame() {
 
     //constants
-    const WIDTH = 1380;
-    const HEIGHT = 800;
+    const WIDTH = 1200;
+    const HEIGHT = 672;
 
     var ctx;
 
@@ -22,7 +22,8 @@ function startGame() {
         PLAYER_SPRITE_JUMP.length +
         PLAYER_SPRITE_CROUCH.length +
         PLAYER_SPRITE_JUMP_LEFT.length +
-        PLAYER_SPRITE_JUMP_RIGHT.length;
+        PLAYER_SPRITE_JUMP_RIGHT.length +
+        SPAWN_CAVE_BACKROUND.length;
     var imagesToLoad = numberOfImages;
 
     var jumping = false;
@@ -40,7 +41,7 @@ function startGame() {
     var playerJumpHeight = 7;
     var playerJumpSpeed = 5;
     var playerSprite = PLAYER_SPRITE_RIGHT[5];
-
+    var backRoundImage = SPAWN_CAVE_BACKROUND[1];
     //frame variables
     var frameRight = 0;
     var frameLeft = 0;
@@ -101,6 +102,7 @@ function startGame() {
         bordercheck();
 
         //draw the player
+        ctx.drawImage(backRoundImage.img, 0, 0, backRoundImage.width, backRoundImage.height);
         ctx.drawImage(playerSprite.img, playerXPosition, playerYPosition, playerSprite.width, playerSprite.height);
 
     }
