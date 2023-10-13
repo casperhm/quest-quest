@@ -6,65 +6,64 @@
 * Purpose: make game
 **/
 
+//constants
+const WIDTH = 1200;
+const HEIGHT = 672;
+
+var ctx;
+
+//player variables
+// -1 if left, 0 is forward, 1 is right
+
+var numberOfImages = PLAYER_SPRITE_LEFT.length +
+    PLAYER_SPRITE_JUMP_RIGHT.length +
+    PLAYER_SPRITE_JUMP.length +
+    PLAYER_SPRITE_CROUCH.length +
+    PLAYER_SPRITE_JUMP_LEFT.length +
+    PLAYER_SPRITE_JUMP_RIGHT.length +
+    SPAWN_CAVE_BACKROUND.length;
+var imagesToLoad = numberOfImages;
+
+var jumping = false;
+var momentum = 0;
+var xMomentum = 0;
+var unCrouching = false;
+var sprinting = false;
+var onGround = true;
+var crouching = false;
+var faceingX = 0;
+var faceingY = 0; // for the future
+var playerXPosition = 30;
+var playerYPosition = 500;
+var playerSpeed = 3;
+var playerJumpHeight = 7;
+var playerJumpSpeed = 5;
+var playerSprite = PLAYER_SPRITE_RIGHT[5];
+//frame variables
+var frameRight = 0;
+var frameLeft = 0;
+var frameJump = 0;
+var frameJumpRight = 1;
+var frameJumpLeft = 1;
+var frameCrouch = 0;
+
+//movement flags
+var leftKey = false;
+var rightKey = false;
+var jumpKey = false;
+var horizontalKey = false;
+var upPressed = false;
+var downPressed = false;
+var leftPressed = false;
+var rightPressed = false;
+
 function startGame() {
-
-    //constants
-    const WIDTH = 1200;
-    const HEIGHT = 672;
-
-    var ctx;
-
-    //player variables
-    // -1 if left, 0 is forward, 1 is right
-
-    var numberOfImages = PLAYER_SPRITE_LEFT.length +
-        PLAYER_SPRITE_JUMP_RIGHT.length +
-        PLAYER_SPRITE_JUMP.length +
-        PLAYER_SPRITE_CROUCH.length +
-        PLAYER_SPRITE_JUMP_LEFT.length +
-        PLAYER_SPRITE_JUMP_RIGHT.length +
-        SPAWN_CAVE_BACKROUND.length;
-    var imagesToLoad = numberOfImages;
-
-    var jumping = false;
-    var momentum = 0;
-    var xMomentum = 0;
-    var unCrouching = false;
-    var sprinting = false;
-    var onGround = true;
-    var crouching = false;
-    var faceingX = 0;
-    var faceingY = 0; // for the future
-    var playerXPosition = 30;
-    var playerYPosition = 500;
-    var playerSpeed = 3;
-    var playerJumpHeight = 7;
-    var playerJumpSpeed = 5;
-    var playerSprite = PLAYER_SPRITE_RIGHT[5];
-    var backRoundImage = SPAWN_CAVE_BACKROUND[1];
-    //frame variables
-    var frameRight = 0;
-    var frameLeft = 0;
-    var frameJump = 0;
-    var frameJumpRight = 1;
-    var frameJumpLeft = 1;
-    var frameCrouch = 0;
-
-    //movement flags
-    var leftKey = false;
-    var rightKey = false;
-    var jumpKey = false;
-    var horizontalKey = false;
-    var upPressed = false;
-    var downPressed = false;
-    var leftPressed = false;
-    var rightPressed = false;
 
 
     window.onload = startCanvas;
 
 
-    console.log("go");
+    console.log("sloth go");
     function startCanvas() {
         // The startCanvas() function sets up the game. 
         // This is where all of the once off startup stuff should go
@@ -89,8 +88,8 @@ function startGame() {
         //this function is run every frame. most of the code goes here
 
         // Clear the frame
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
 
 
 
@@ -102,7 +101,6 @@ function startGame() {
         bordercheck();
 
         //draw the player
-        ctx.drawImage(backRoundImage.img, 0, 0, backRoundImage.width, backRoundImage.height);
         ctx.drawImage(playerSprite.img, playerXPosition, playerYPosition, playerSprite.width, playerSprite.height);
 
     }
@@ -342,12 +340,8 @@ function startGame() {
         jumping = true;
     }
     function bordercheck() {
-        if (leftPressed && playerXPosition < 0) {
-            playerSpeed = 0;
-        } else if (rightPressed && playerXPosition + playerSprite.width > WIDTH) {
-            playerSpeed = 0;
-        } else {
-            playerSpeed = 3;
+        if (playerXPosition <= 0 || playerXPosition >= WIDTH - playerSprite.width) {
+            playerSpeed = -2;
         }
     }
 
