@@ -135,15 +135,26 @@ const PLAYER_SPRITE_JUMP_LEFT = [
 
 const SPAWN_CAVE_BACKROUND = [
     { src: "backrounds/spawn_cave1" },
-    { src: "backrounds/spawn_cave2" },
-    { src: "backrounds/spawn_cave3" },
-    { src: "backrounds/spawn_cave4" },
-    { src: "backrounds/spawn_cave5" },
-    { src: "backrounds/spawn_cave6" },
-    { src: "backrounds/spawn_cave7" },
 ];
 
-const ALL_DATA = [PLAYER_SPRITE_LEFT, PLAYER_SPRITE_RIGHT, PLAYER_SPRITE_CROUCH, PLAYER_SPRITE_JUMP, PLAYER_SPRITE_JUMP_RIGHT, PLAYER_SPRITE_JUMP_LEFT, SPAWN_CAVE_BACKROUND];
+const BACKROUND_ANIMATIONS = [
+    { src: "animations/no_eyes" },
+    { src: "animations/eyes_1" },
+    { src: "animations/eyes_2" },
+    { src: "animations/eyes_3" },
+    { src: "animations/eyes_4" },
+    { src: "animations/no_eyes" },
+    { src: "animations/eyes_4" },
+    { src: "animations/eyes_3" },
+    { src: "animations/eyes_2" },
+    { src: "animations/eyes_1" },
+    { src: "animations/no_eyes" },
+    { src: "animations/eyes_6" },
+    { src: "animations/eyes_7" },
+    { src: "animations/no_eyes" },
+];
+
+const ALL_DATA = [PLAYER_SPRITE_LEFT, PLAYER_SPRITE_RIGHT, PLAYER_SPRITE_CROUCH, PLAYER_SPRITE_JUMP, PLAYER_SPRITE_JUMP_RIGHT, PLAYER_SPRITE_JUMP_LEFT, SPAWN_CAVE_BACKROUND, BACKROUND_ANIMATIONS];
 
 var imagesToLoad = 0;
 

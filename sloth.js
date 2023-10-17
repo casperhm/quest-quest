@@ -57,27 +57,38 @@ var downPressed = false;
 var leftPressed = false;
 var rightPressed = false;
 
+var area = 1;
+var animationX = 0;
+var animationY = 0;
+var animationFrame = 0;
+var backRoundSpeed = 100;
+var animationImage = BACKROUND_ANIMATIONS[0];
+var backRoundImage = SPAWN_CAVE_BACKROUND[0];
+
 function startGame() {
 
 
     window.onload = startCanvas;
 
 
-    console.log("sloth go");
+    console.log("go");
     function startCanvas() {
         // The startCanvas() function sets up the game. 
         // This is where all of the once off startup stuff should go
-        ctx = document.getElementById("myCanvas").getContext("2d");
-
+        ctx = document.getElementById("Canvas1").getContext("2d");
         // note for future casper: this disables pixel smoothing
         ctx.imageSmoothingEnabled = false;
-
         // This timer sets the framerate.
         // 10 means 10 milliseconds between frames (100 frames per second)
+
+        //draw the backround
+
+        backRoundAnimation();
         timer = setInterval(gravity, 15);
         timer = setInterval(updateCanvas, 30);
+        timer = setInterval(backRoundAnimation, backRoundSpeed);
         timer = setInterval(() => {
-            console.log("frameJunmpRight", frameJumpRight, "fraemCeoch", frameCrouch, "onGround", onGround, "unCrouching", unCrouching);
+            console.log("animationFrame", animationFrame, "backRoundSpeed", backRoundSpeed, "unCrouching", unCrouching);
             setSpeed();
             frameUpdate();
             directionCheck();
@@ -92,7 +103,6 @@ function startGame() {
 
 
 
-
         // move the playerXPosition
         movePlayer();
 
@@ -100,10 +110,41 @@ function startGame() {
         //check the collisions
         bordercheck();
 
-        //draw the player
+        //draw the player 
+        ctx.drawImage(backRoundImage.img, 0, 0, backRoundImage.width, backRoundImage.height);
         ctx.drawImage(playerSprite.img, playerXPosition, playerYPosition, playerSprite.width, playerSprite.height);
+        ctx.drawImage(animationImage.img, animationX, animationY, animationImage.width, animationImage.height);
+
 
     }
+
+    function backRoundAnimation() {
+
+        animationImage = BACKROUND_ANIMATIONS[animationFrame];
+
+
+        if (area == 1) {
+            if (animationFrame == 0 || (animationFrame == 5) || (animationFrame == 10) || (animationFrame == 13)) {
+                backRoundSpeed = 1000;
+            } else {
+                backRoundSpeed = 100;
+            }
+            if (animationFrame == 0) {
+                animationX = 700;
+                animationY = 350;
+            } else if (animationFrame == 10) {
+                animationX = 620;
+                animationY = 220;
+            }
+        }
+
+        animationFrame++;
+        if (animationFrame >= 13) {
+            animationFrame = 0;
+        }
+
+    }
+
 
     function setSpeed() {
         if (crouching == false && sprinting == false) {
