@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h1>Test for transparent pixel</h1>
+<p style="max-width: 800px;">An image with some transparent pixels and some solid areas is loaded and drawn
+in a <code>&lt;canvas&gt;</code>. The canvas background is set to grey, so transparent pixels
+appear as that color. As you move your mouse over the image pixels, that pixel is tested for
+transparency (its alpha value being less than 1), and the result shown below the image.</p>
+
+<canvas id="canvas" width="600" height="400" style="background-color: #ccc; border: 1px solid black;"></canvas>
+<p>Transparent: <span id="result">false</span></p>
+<script>
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const resultEl = document.getElementById("result");
+
+const image = new Image();
+image.onload = () => {
+	// draw original image
+	ctx.drawImage(image, 0, 0, 600, 400);
+};
+image.src = "ground-mask.png";
+
+canvas.addEventListener("mousemove", (event) => {
+	const bounding = canvas.getBoundingClientRect();
+	const x = event.clientX - bounding.left;
+	const y = event.clientY - bounding.top;
+	const pixel = ctx.getImageData(x, y, 1, 1);
+	const data = pixel.data;
+	resultEl.innerText = data[3] < 1;
+});
+</script>
+</body>
+</html>

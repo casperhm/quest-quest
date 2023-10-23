@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h1>Darken image</h1>
+<p>An image is loaded and drawn in a <code>&lt;canvas&gt;</code>. Then all pixels in the image are 
+darkened by 60% and drawn next to the original image.</p>
+<canvas id="canvas" width="600" height="402"></canvas>
+<script>
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const rnd = Math.round;
+
+const image = new Image();
+image.onload = () => {
+	// draw original image
+	ctx.drawImage(image, 0, 0, 300, 402);
+	
+	// get image pixel data
+	const imageData = ctx.getImageData(0, 0, 300, 402);
+	const data = imageData.data;
+	
+	// darken all RGB values by 60%
+	for ( let i = 0; i < data.length; i+= 4) {
+		shade(data, i, -0.6); // negative means darken
+	}
+	ctx.putImageData(imageData, 300, 0);
+};
+image.src = "test.jpg";
+
+
+/**
+ * Shade RGB pixels in a data array by a percentage.
+ *
+ * @param data - the image data array, of RGBA pixels
+ * @param i - the data array offset pixel "R" position to manipulate
+ * @param p - the percentage to shade, between -1 and 1, with negative meaning darker
+ */
+function shade(data, i, p) {
+	const n = p < 0,
+		t = n ? 0 : 255 * p,
+		P = n ? 1 + p : 1 - p;
+	data[i] = data[i] * P + t;
+	data[i+1] = rnd(data[i+1] * P + t);
+	data[i+2] = rnd(data[i+2] * P + t);
+}
+</script>
+</body>
+</html>
