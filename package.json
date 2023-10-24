@@ -4,6 +4,9 @@
   "description": "One quest to rule them all.",
   "main": "src/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=17"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
