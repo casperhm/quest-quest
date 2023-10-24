@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"target": "ES2017",
+		"module": "ES2015",
+		"baseUrl": "src/"
+	},
+    "include": ["src/**/*"],
+	"exclude": ["build", "dist", "node_modules"]
+}
