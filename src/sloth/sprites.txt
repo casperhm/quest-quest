@@ -1,0 +1,144 @@
+crouch_walk1,141,340,36,39
+crouch_walk2,178,340,36,39
+crouch_walk3,215,340,36,39
+crouch_walk4,252,340,36,39
+crouch_walk5,289,340,36,39
+crouch_walk6,326,340,36,39
+crouch_walk7,379,0,36,39
+crouch_walk8,379,40,36,39
+crouch_walk9,379,80,36,39
+crouch1,37,153,35,48
+crouch2,194,0,37,47
+crouch3,253,0,36,45
+crouch4,290,0,36,44
+crouch5,290,45,36,42
+crouch6,290,88,36,41
+crouch7,290,214,36,40
+sprint_left1,82,250,18,45
+jump_left1,155,153,15,48
+jump_left2,20,202,15,47
+jump_left3,36,202,15,47
+jump_left4,52,202,15,47
+jump_left5,68,202,15,47
+jump_left6,194,144,19,47
+jump_left7,194,96,20,47
+jump_left8,145,202,20,46
+jump_left9,166,202,20,46
+jump_right1,171,153,15,48
+jump_right2,84,202,15,47
+jump_right3,100,202,15,47
+jump_right4,177,50,15,46
+jump_right5,177,97,15,46
+jump_right6,232,47,19,46
+jump_right7,187,202,20,46
+jump_right8,208,202,20,46
+jump_right9,232,0,20,46
+jump1,73,153,35,48
+jump2,0,153,36,48
+jump3,194,48,30,47
+jump4,116,202,28,46
+jump5,253,138,27,45
+jump6,56,250,25,45
+jump7,253,184,27,45
+jump8,0,250,27,45
+jump9,28,250,27,45
+mantle_left1 ,0,381,23,39
+mantle_left2 ,24,381,23,39
+mantle_left3 ,379,200,26,39
+mantle_left4 ,379,120,30,39
+mantle_left5 ,352,381,29,37
+mantle_left6 ,292,381,29,38
+mantle_left7 ,290,255,26,40
+mantle_left8 ,290,130,25,41
+mantle_left9 ,327,0,26,40
+mantle_left10 ,327,41,26,40
+mantle_left12 ,379,280,25,39
+mantle_left13 ,327,205,24,40
+mantle_left14 ,354,41,23,40
+mantle_left15 ,327,246,24,40
+mantle_left16 ,96,381,20,39
+mantle_left17 ,105,340,17,40
+mantle_left18 ,354,123,22,40
+mantle_left19 ,354,164,22,40
+mantle_left20 ,354,287,20,40
+mantle_left21 ,0,340,20,40
+mantle_left22 ,21,340,20,40
+mantle_left23 ,117,381,20,39
+mantle_left24 ,138,381,20,39
+mantle_left25 ,222,381,19,39
+mantle_left26 ,262,381,14,39
+mantle_right1,48,381,23,39
+mantle_right2,72,381,23,39
+mantle_right3,379,240,26,39
+mantle_right4,379,160,30,39
+mantle_right5,382,381,29,37
+mantle_right6,322,381,29,38
+mantle_right7,327,82,26,40
+mantle_right8,290,172,25,41
+mantle_right9,327,123,26,40
+mantle_right10,327,164,26,40
+mantle_right12,379,320,25,39
+mantle_right13,327,287,24,40
+mantle_right14,354,82,23,40
+mantle_right15,354,0,24,40
+mantle_right16,159,381,20,39
+mantle_right17,123,340,17,40
+mantle_right18,354,205,22,40
+mantle_right19,354,246,22,40
+mantle_right20,42,340,20,40
+mantle_right21,63,340,20,40
+mantle_right22,84,340,20,40
+mantle_right23,180,381,20,39
+mantle_right24,201,381,20,39
+mantle_right25,242,381,19,39
+mantle_right26,277,381,14,39
+slide_left1 ,161,51,15,48
+slide_left2 ,109,153,22,48
+slide_left3 ,253,46,32,45
+slide_left4 ,0,296,37,43
+slide_left5 ,76,296,42,38
+slide_left6 ,162,296,42,29
+slide_right1,161,100,15,48
+slide_right2,132,153,22,48
+slide_right3,253,92,32,45
+slide_right4,38,296,37,43
+slide_right5,119,296,42,38
+slide_right6,205,296,42,29
+sprint1,101,250,18,45
+sprint2,232,141,18,46
+sprint3,0,202,19,47
+sprint4,232,94,19,46
+sprint5,120,250,18,45
+sprint6,139,250,18,45
+sprint7,158,250,18,45
+sprint8,177,250,18,45
+sprint9,196,250,18,45
+sprint10,215,250,18,45
+sprint11,234,250,18,45
+sprint12,253,250,18,45
+sprint13,232,188,18,45
+sprint14,88,0,19,50
+turn_left1,0,0,29,50
+turn_left2,60,0,27,50
+turn_left3,28,51,23,50
+turn_left4,88,51,19,50
+turn_left5,34,102,15,50
+turn_left6,50,102,15,50
+turn_right1,30,0,29,50
+turn_right2,0,51,27,50
+turn_right3,52,51,23,50
+turn_right4,108,0,19,50
+turn_right5,66,102,15,50
+turn_right6,82,102,15,50
+walk_left1,98,102,15,50
+walk_left2,108,51,16,50
+walk_left3,128,0,16,50
+walk_left4,128,51,16,50
+walk_left5,114,102,15,50
+walk_left6,145,0,15,50
+walk_right1,145,51,15,50
+walk_right2,0,102,16,50
+walk_right3,17,102,16,50
+walk_right4,177,0,16,49
+walk_right5,145,102,15,50
+walk_right6,161,0,15,50

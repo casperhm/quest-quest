@@ -1,0 +1,9 @@
+h1 {
+    outline-style: solid;
+}
+
+body {
+    background-image: url("backround.gif");
+    background-repeat: false;
+    background-size: 400, 300
+}

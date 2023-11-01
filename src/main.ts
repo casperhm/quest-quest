@@ -1,6 +1,6 @@
 import "./style.css";
 import "phaser";
-import { menu } from "./menu-scene";
+import { cave } from "./cave_scene";
 
 const GameConfig: Phaser.Types.Core.GameConfig = {
     title: "Quest Quest",
@@ -10,7 +10,7 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
     height: 600,
     type: Phaser.AUTO,
     parent: "app",
-    scene: [menu()],
+    scene: [cave()],
     input: {
         keyboard: true,
     },
@@ -21,7 +21,7 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
             debug: false,
         },
     },
-    backgroundColor: "#300000",
+    backgroundColor: "#000000",
     render: { pixelArt: false, antialias: true },
     scale: {
         mode: Phaser.Scale.FIT,
