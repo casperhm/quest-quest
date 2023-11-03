@@ -6,8 +6,8 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
     title: "Quest Quest",
     url: "https://github.com/casperhm/quest-quest",
     version: "2.0",
-    width: 800,
-    height: 600,
+    width: 300,
+    height: 168,
     type: Phaser.AUTO,
     parent: "app",
     scene: [cave()],
@@ -21,8 +21,10 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
             debug: false,
         },
     },
-    backgroundColor: "#000000",
-    render: { pixelArt: false, antialias: true },
+
+    transparent: true,
+
+    render: { pixelArt: false, antialias: false },
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,

@@ -1,6 +1,10 @@
 import "phaser";
-
+import * as Globals from './globals';
 export const menuSceneKey = "MenuScene";
+
+let wall: Phaser.GameObjects.Image;
+
+
 
 export function cave():
     | Phaser.Types.Scenes.SettingsConfig
@@ -13,23 +17,33 @@ export function cave():
             this.load.image("walls", "/img/backrounds/walls.png");
 
             // REF: https://newdocs.phaser.io/docs/3.60.0/Phaser.Loader.LoaderPlugin#spritesheet
-            this.load.spritesheet(
-                "backround",
-                "/img/backrounds/backround.png",
-                { frameWidth: 300, frameHeight: 168 }
-            );
 
             // NOTE: Spritesheet only for identially-sized images; Tilemap CSV might also be
             //       Atlas JSON might be what you want to use here, e.g.
             //
-            //      this.load.atlas("sloth", "/img/sloth/spritesheet.png", "/img/sloth/spritesheet.json");
+            this.load.atlas("sloth", "/img/sloth/spritesheet.png", "/img/sloth/spritesheet.json");
             //
             // REF: https://newdocs.phaser.io/docs/3.60.0/Phaser.Loader.LoaderPlugin#atlas
-            // FIXME: this.load.spritesheet("sloth", "/img/sloth/spritesheet.png");
         },
         create() {
-            this.add.image(400, 300, "walls");
+            //strech without distortion to fit screen
+            this.scale.displaySize.setAspectRatio(Globals.WIDTH / Globals.HEIGHT);
+            this.scale.refresh();
+
+            //cave walls/floors
+            wall = this.add.image(Globals.WIDTH / 2, Globals.HEIGHT / 2, "walls");
+
+            //player drawing from atlas
+            this.add.image(30, 105, 'sloth', 'jump1');
+
+
         },
-        update() {},
+
+
+        update() {
+            //detects keyboard inputs
+            let cursors = this.input.keyboard.createCursorKeys();
+
+        },
     };
 }

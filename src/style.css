@@ -8,11 +8,21 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #ff3c00;
-    height: 98%;
-    width: 98%;
-    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
+
+
 
 .window-controls {
     margin-bottom: 0.5em;
+}
+
+canvas {
+    background-image: url('backrounds/backround.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
