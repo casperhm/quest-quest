@@ -3,7 +3,7 @@ import * as Globals from './globals';
 export const menuSceneKey = "MenuScene";
 
 let wall: Phaser.GameObjects.Image;
-
+let sloth: Phaser.GameObjects.Sprite;
 
 
 export function cave():
@@ -34,8 +34,8 @@ export function cave():
             wall = this.add.image(Globals.WIDTH / 2, Globals.HEIGHT / 2, "walls");
 
             //player drawing from atlas
-            this.add.image(30, 105, 'sloth', 'jump1');
-
+            sloth = this.add.sprite(30, 105, 'sloth', 'jump1');
+            sloth.setTint(0x36454F);
 
         },
 
