@@ -44,9 +44,18 @@ export function cave():
             );
 
             //player drawing from atlas
-            sloth = this.add.sprite(30, 105, 'sloth', 'jump1');
+            sloth = this.physics.add.sprite(30, 105, 'sloth', 'jump1');
             sloth.setTint(0x36454F);
 
+            sloth.setBounce(0.2);
+            sloth.setCollideWorldBounds(true);
+
+            this.anims.create({
+                key: 'left',
+                frames: this.anims.generateFrameNumbers('sloth', { start: 0, end: 3 }),
+                frameRate: 10,
+                repeat: -1
+            });
         },
 
         update() {
