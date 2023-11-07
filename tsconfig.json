@@ -2,28 +2,32 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "ES2022",
-        "lib": ["ES2022", "DOM", "DOM.Iterable", "scripthost"],
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable",
+            "scripthost"
+        ],
         "useDefineForClassFields": true,
-
         /* Bundler mode */
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-
+        "allowSyntheticDefaultImports": true,
         /* Linting */
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
-
         "allowJs": true,
         "sourceMap": true
         //"esModuleInterop": true,
         //"types": ["vite/client"],
     },
-
-    "include": ["./src"]
+    "include": [
+        "./src"
+    ]
 }
