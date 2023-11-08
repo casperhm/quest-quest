@@ -2,7 +2,7 @@ import "phaser";
 import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
-let wall: Phaser.GameObjects.Image;
+let wall: Phaser.Physics.Arcade.StaticGroup;
 let sloth: Phaser.Physics.Arcade.Sprite;
 let faceingLeft;
 let faceingRight;
@@ -39,11 +39,7 @@ export function cave():
             this.scale.refresh();
 
             //cave walls / floors;
-            wall = this.add.image(
-                Globals.WIDTH / 2,
-                Globals.HEIGHT / 2,
-                "walls"
-            );
+
 
             //player drawing from atlas
             sloth = this.physics.add.sprite(30, 105, "sloth", "jump1");
