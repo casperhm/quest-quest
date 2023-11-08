@@ -7,7 +7,6 @@ let sloth: Phaser.GameObjects.Sprite;
 let faceingLeft;
 let faceingRight;
 let crouching;
-let uncrouching;
 
 export function cave():
     | Phaser.Types.Scenes.SettingsConfig
@@ -39,7 +38,7 @@ export function cave():
             );
             this.scale.refresh();
 
-            //cave walls/floors
+            //cave walls / floors;
             wall = this.add.image(
                 Globals.WIDTH / 2,
                 Globals.HEIGHT / 2,
@@ -50,8 +49,15 @@ export function cave():
             sloth = this.physics.add.sprite(30, 105, 'sloth', 'jump1');
             sloth.setTint(0x36454F);
 
-            sloth.setBounce(0.2);
+            //sloth things
+            sloth.setBounce(0);
             sloth.setCollideWorldBounds(true);
+            sloth.setGravityY(300);
+
+            //collision things
+            wall = this.physics.add.staticGroup();
+            wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, 'wall').setScale(2).refreshBody();
+            this.physics.add.collider(sloth, wall);
 
             //animations for sloth
 
@@ -136,7 +142,7 @@ export function cave():
         },
 
         update() {
-
+            console.log(crouching);
             //detects keyboard inputs
             let cursors = this.input.keyboard?.addKeys(
                 {
@@ -159,7 +165,7 @@ export function cave():
             if (cursors?.right.isDown) {
                 sloth.setVelocityX(50);
                 if (!crouching) {
-                    sloth.anims.play('right_walk', true);
+                    sloth.anims.play('walk_right', true);
                 }
             }
 
@@ -175,13 +181,13 @@ export function cave():
             if (cursors?.right.isUp && cursors?.left.isUp) {
                 sloth.setVelocityX(0);
                 //turn to centre
-                if (faceingRight) {
+                if (faceingRight && !crouching) {
                     sloth.anims.playReverse('turn_right', true).on('animationcomplete', () => {
                         sloth.anims.play('idle', true);
                     });
                     faceingRight = false;
                 }
-                if (faceingLeft) {
+                if (faceingLeft && !crouching) {
                     sloth.anims.playReverse('turn_left', true).on('animationcomplete', () => {
                         sloth.anims.play('idle', true);
                     });
@@ -192,6 +198,8 @@ export function cave():
             //crouch
             if (cursors?.down.isDown && !crouching) {
                 crouching = true;
+                faceingRight = false;
+                faceingLeft = false;
                 sloth.anims.play('crouch', true).on('animationcomplete', () => {
                     sloth.anims.play('crouch_walk', true);
                 });
