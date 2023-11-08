@@ -4,9 +4,9 @@ export const menuSceneKey = "MenuScene";
 
 let wall: Phaser.Physics.Arcade.StaticGroup;
 let sloth: Phaser.Physics.Arcade.Sprite;
-let faceingLeft;
-let faceingRight;
-let crouching;
+let faceingLeft: boolean = false;
+let faceingRight: boolean = false;
+let crouching: boolean = false;
 
 export function cave():
     | Phaser.Types.Scenes.SettingsConfig
@@ -39,7 +39,6 @@ export function cave():
             this.scale.refresh();
 
             //cave walls / floors;
-
 
             //player drawing from atlas
             sloth = this.physics.add.sprite(30, 105, "sloth", "jump1");
