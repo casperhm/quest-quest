@@ -160,7 +160,7 @@ export function cave():
                 down: Phaser.Input.Keyboard.KeyCodes.S,
                 left: Phaser.Input.Keyboard.KeyCodes.A,
                 right: Phaser.Input.Keyboard.KeyCodes.D,
-            });
+            }) as Globals.GameKeys;
 
             //detect faceing left/right
             if (cursors?.right.isDown) {
