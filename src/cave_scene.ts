@@ -3,7 +3,7 @@ import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
 let wall: Phaser.GameObjects.Image;
-let sloth: Phaser.GameObjects.Sprite;
+let sloth: Phaser.Physics.Arcade.Sprite;
 let faceingLeft;
 let faceingRight;
 let crouching;
@@ -46,8 +46,8 @@ export function cave():
             );
 
             //player drawing from atlas
-            sloth = this.physics.add.sprite(30, 105, 'sloth', 'jump1');
-            sloth.setTint(0x36454F);
+            sloth = this.physics.add.sprite(30, 105, "sloth", "jump1");
+            sloth.setTint(0x36454f);
 
             //sloth things
             sloth.setBounce(0);
@@ -56,101 +56,116 @@ export function cave():
 
             //collision things
             wall = this.physics.add.staticGroup();
-            wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, 'wall').setScale(2).refreshBody();
+            wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, "wall")
+                .setScale(2)
+                .refreshBody();
             this.physics.add.collider(sloth, wall);
 
             //animations for sloth
 
             //idle
             this.anims.create({
-                key: 'idle',
+                key: "idle",
                 frameRate: 4,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'idle',
-                    start: 1, end: 2, zeroPad: 1
-
-                }), repeat: -1
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "idle",
+                    start: 1,
+                    end: 2,
+                    zeroPad: 1,
+                }),
+                repeat: -1,
             });
             //make play idle at startgame
-            sloth.anims.play('idle', true);
+            sloth.anims.play("idle", true);
 
             //walk right
             this.anims.create({
-                key: 'walk_right',
+                key: "walk_right",
                 frameRate: 6,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'walk_right',
-                    start: 1, end: 6, zeroPad: 1
-
-                }), repeat: -1
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "walk_right",
+                    start: 1,
+                    end: 6,
+                    zeroPad: 1,
+                }),
+                repeat: -1,
             });
 
             //walk left
             this.anims.create({
-                key: 'walk_left',
+                key: "walk_left",
                 frameRate: 6,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'walk_left',
-                    start: 1, end: 6, zeroPad: 1
-
-                }), repeat: -1
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "walk_left",
+                    start: 1,
+                    end: 6,
+                    zeroPad: 1,
+                }),
+                repeat: -1,
             });
 
             //turn right
             this.anims.create({
-                key: 'turn_right',
+                key: "turn_right",
                 frameRate: 20,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'turn_right',
-                    start: 1, end: 6, zeroPad: 1
-
-                }), repeat: 0
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "turn_right",
+                    start: 1,
+                    end: 6,
+                    zeroPad: 1,
+                }),
+                repeat: 0,
             });
 
             //turn left
             this.anims.create({
-                key: 'turn_left',
+                key: "turn_left",
                 frameRate: 20,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'turn_left',
-                    start: 1, end: 6, zeroPad: 1
-
-                }), repeat: 0
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "turn_left",
+                    start: 1,
+                    end: 6,
+                    zeroPad: 1,
+                }),
+                repeat: 0,
             });
 
             //crouch
             this.anims.create({
-                key: 'crouch',
+                key: "crouch",
                 frameRate: 20,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'crouch',
-                    start: 1, end: 7, zeroPad: 1
-
-                }), repeat: 0
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "crouch",
+                    start: 1,
+                    end: 7,
+                    zeroPad: 1,
+                }),
+                repeat: 0,
             });
 
             //crouch walk
             this.anims.create({
-                key: 'crouch_walk',
+                key: "crouch_walk",
                 frameRate: 8,
-                frames: this.anims.generateFrameNames('sloth', {
-                    prefix: 'crouch',
-                    start: 8, end: 16, zeroPad: 1
-
-                }), repeat: -1
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "crouch",
+                    start: 8,
+                    end: 16,
+                    zeroPad: 1,
+                }),
+                repeat: -1,
             });
         },
 
         update() {
             console.log(crouching);
             //detects keyboard inputs
-            let cursors = this.input.keyboard?.addKeys(
-                {
-                    up: Phaser.Input.Keyboard.KeyCodes.W,
-                    down: Phaser.Input.Keyboard.KeyCodes.S,
-                    left: Phaser.Input.Keyboard.KeyCodes.A,
-                    right: Phaser.Input.Keyboard.KeyCodes.D
-                });
+            let cursors = this.input.keyboard?.addKeys({
+                up: Phaser.Input.Keyboard.KeyCodes.W,
+                down: Phaser.Input.Keyboard.KeyCodes.S,
+                left: Phaser.Input.Keyboard.KeyCodes.A,
+                right: Phaser.Input.Keyboard.KeyCodes.D,
+            });
 
             //detect faceing left/right
             if (cursors?.right.isDown) {
@@ -165,7 +180,7 @@ export function cave():
             if (cursors?.right.isDown) {
                 sloth.setVelocityX(50);
                 if (!crouching) {
-                    sloth.anims.play('walk_right', true);
+                    sloth.anims.play("walk_right", true);
                 }
             }
 
@@ -173,7 +188,7 @@ export function cave():
             if (cursors?.left.isDown) {
                 sloth.setVelocityX(-50);
                 if (!crouching) {
-                    sloth.anims.play('walk_left', true);
+                    sloth.anims.play("walk_left", true);
                 }
             }
 
@@ -182,15 +197,19 @@ export function cave():
                 sloth.setVelocityX(0);
                 //turn to centre
                 if (faceingRight && !crouching) {
-                    sloth.anims.playReverse('turn_right', true).on('animationcomplete', () => {
-                        sloth.anims.play('idle', true);
-                    });
+                    sloth.anims
+                        .playReverse("turn_right", true)
+                        .on("animationcomplete", () => {
+                            sloth.anims.play("idle", true);
+                        });
                     faceingRight = false;
                 }
                 if (faceingLeft && !crouching) {
-                    sloth.anims.playReverse('turn_left', true).on('animationcomplete', () => {
-                        sloth.anims.play('idle', true);
-                    });
+                    sloth.anims
+                        .playReverse("turn_left", true)
+                        .on("animationcomplete", () => {
+                            sloth.anims.play("idle", true);
+                        });
                     faceingLeft = false;
                 }
             }
@@ -200,17 +219,19 @@ export function cave():
                 crouching = true;
                 faceingRight = false;
                 faceingLeft = false;
-                sloth.anims.play('crouch', true).on('animationcomplete', () => {
-                    sloth.anims.play('crouch_walk', true);
+                sloth.anims.play("crouch", true).on("animationcomplete", () => {
+                    sloth.anims.play("crouch_walk", true);
                 });
             }
 
             //uncrouch
             if (cursors?.down.isUp && crouching) {
                 crouching = false;
-                sloth.anims.playReverse('crouch', true).on('animationcomplete', () => {
-                    sloth.anims.play('idle', true);
-                });
+                sloth.anims
+                    .playReverse("crouch", true)
+                    .on("animationcomplete", () => {
+                        sloth.anims.play("idle", true);
+                    });
             }
         },
     };
