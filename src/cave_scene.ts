@@ -52,7 +52,7 @@ export function cave():
             //collision things
             wall = this.physics.add.staticGroup();
             wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, "walls")
-                .setScale(2)
+                .setScale(1)
                 .refreshBody();
             this.physics.add.collider(sloth, wall);
 
