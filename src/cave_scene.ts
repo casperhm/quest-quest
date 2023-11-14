@@ -161,7 +161,6 @@ export function cave():
         },
 
         update() {
-            console.log(crouching);
             //detects keyboard inputs
             let cursors = this.input.keyboard?.addKeys({
                 up: Phaser.Input.Keyboard.KeyCodes.W,
