@@ -3,7 +3,7 @@ import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
 //let wall: Phaser.Physics.Arcade.StaticGroup;
-let wall_collision: Phaser.Physics.Matter.Sprite;
+let ground: Phaser.Physics.Matter.Sprite;
 let sloth: Phaser.Physics.Matter.Sprite;
 let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
@@ -14,27 +14,34 @@ export function cave():
     | Phaser.Types.Scenes.CreateSceneFromObjectConfig {
     return {
         preload() {
-            this.load.atlas('walls',
-                '/img/backrounds/walls.png',
-                '/img/backrounds/walls.json'
+            this.load.atlas(
+                "walls",
+                "/img/backrounds/walls.png",
+                "/img/backrounds/walls.json"
             );
 
-            this.load.json('wall_collision', '/img/backrounds/wall_collision.json');
+            this.load.json(
+                "wall_collision",
+                "/img/backrounds/wall_collision.json"
+            );
 
             this.load.atlas(
                 "sloth",
                 "/img/sloth/spritesheet.png",
                 "/img/sloth/spritesheet.json"
             );
-
         },
         create() {
-            var collisions = this.cache.json.get('wall_collision');
-
             this.matter.world.setBounds(0, 0, Globals.WIDTH, Globals.HEIGHT);
 
-            var ground = this.matter.add.sprite(0, 0, 'walls', 'walls_bottom', { shape: collisions.walls_bottom });
-            ground.setPosition(0 + ground.centerOfMass.x, 280 + ground.centerOfMass.y);  // position (0,280)
+            let collisions = this.cache.json.get("wall_collision");
+            ground = this.matter.add.sprite(0, 0, "walls", "walls_bottom", {
+                shape: collisions.walls_bottom,
+            });
+            ground.setPosition(
+                0 + ground.centerOfMass.x,
+                280 + ground.centerOfMass.y
+            ); // position (0,280)
 
             //strech without distortion to fit screen
             this.scale.displaySize.setAspectRatio(
@@ -49,7 +56,6 @@ export function cave():
             sloth.setTint(0x36454f);
 
             //sloth things
-
 
             //collision things
             //wall = this.physics.add.staticGroup();
