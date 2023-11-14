@@ -2,8 +2,9 @@ import "phaser";
 import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
-let wall: Phaser.Physics.Arcade.StaticGroup;
-let sloth: Phaser.Physics.Arcade.Sprite;
+//let wall: Phaser.Physics.Arcade.StaticGroup;
+let wall_collision: Phaser.Physics.Matter.Sprite;
+let sloth: Phaser.Physics.Matter.Sprite;
 let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
 let crouching: boolean = false;
@@ -13,25 +14,28 @@ export function cave():
     | Phaser.Types.Scenes.CreateSceneFromObjectConfig {
     return {
         preload() {
-            // NOTE: assets are stored in the public/ folder; reference them with a leading / in source, e.g.
-            //
-            //       this.load.image("walls", "/img/backrounds/walls.png");
-            this.load.image("walls", "/img/backrounds/walls.png");
+            this.load.atlas('walls',
+                '/img/backrounds/walls.png',
+                '/img/backrounds/walls.json'
+            );
 
-            // REF: https://newdocs.phaser.io/docs/3.60.0/Phaser.Loader.LoaderPlugin#spritesheet
+            this.load.json('wall_collision', '/img/backrounds/wall_collision.json');
 
-            // NOTE: Spritesheet only for identially-sized images; Tilemap CSV might also be
-            //       Atlas JSON might be what you want to use here, e.g.
-            //
             this.load.atlas(
                 "sloth",
                 "/img/sloth/spritesheet.png",
                 "/img/sloth/spritesheet.json"
             );
-            //
-            // REF: https://newdocs.phaser.io/docs/3.60.0/Phaser.Loader.LoaderPlugin#atlas
+
         },
         create() {
+            var collisions = this.cache.json.get('wall_collision');
+
+            this.matter.world.setBounds(0, 0, Globals.WIDTH, Globals.HEIGHT);
+
+            var ground = this.matter.add.sprite(0, 0, 'walls', 'walls_bottom', { shape: collisions.walls_bottom });
+            ground.setPosition(0 + ground.centerOfMass.x, 280 + ground.centerOfMass.y);  // position (0,280)
+
             //strech without distortion to fit screen
             this.scale.displaySize.setAspectRatio(
                 Globals.WIDTH / Globals.HEIGHT
@@ -41,20 +45,18 @@ export function cave():
             //cave walls / floors;
 
             //player drawing from atlas
-            sloth = this.physics.add.sprite(30, 105, "sloth", "jump1");
+            sloth = this.matter.add.sprite(30, 105, "sloth", "jump1");
             sloth.setTint(0x36454f);
 
             //sloth things
-            sloth.setBounce(0);
-            sloth.setCollideWorldBounds(true);
-            sloth.setGravityY(300);
+
 
             //collision things
-            wall = this.physics.add.staticGroup();
-            wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, "walls")
-                .setScale(1)
-                .refreshBody();
-            this.physics.add.collider(sloth, wall);
+            //wall = this.physics.add.staticGroup();
+            //wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, "walls")
+            //.setScale(1)
+            //.refreshBody();
+            //this.physics.add.collider(sloth, wall);
 
             //animations for sloth
 
@@ -173,7 +175,7 @@ export function cave():
 
             //right walk
             if (cursors?.right.isDown) {
-                sloth.setVelocityX(50);
+                sloth.setVelocityX(1);
                 if (!crouching) {
                     sloth.anims.play("walk_right", true);
                 }
@@ -181,7 +183,7 @@ export function cave():
 
             //left walk
             if (cursors?.left.isDown) {
-                sloth.setVelocityX(-50);
+                sloth.setVelocityX(-1);
                 if (!crouching) {
                     sloth.anims.play("walk_left", true);
                 }
