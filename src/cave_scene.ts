@@ -2,12 +2,14 @@ import "phaser";
 import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
-//let wall: Phaser.Physics.Arcade.StaticGroup;
+let roof: Phaser.Physics.Matter.Sprite;
 let ground: Phaser.Physics.Matter.Sprite;
 let sloth: Phaser.Physics.Matter.Sprite;
 let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
 let crouching: boolean = false;
+let jumping: boolean = false;
+let onGround: boolean = true;
 
 export function cave():
     | Phaser.Types.Scenes.SettingsConfig
@@ -32,16 +34,19 @@ export function cave():
             );
         },
         create() {
+            this.matter.world.on("collisionactive", (sloth, ground) => {
+                onGround = true;
+            });
+
             this.matter.world.setBounds(0, 0, Globals.WIDTH, Globals.HEIGHT);
 
             let collisions = this.cache.json.get("wall_collision");
-            ground = this.matter.add.sprite(0, 0, "walls", "walls_bottom", {
-                shape: collisions.walls_bottom,
-            });
-            ground.setPosition(
-                0 + ground.centerOfMass.x,
-                280 + ground.centerOfMass.y
-            ); // position (0,280)
+
+            ground = this.matter.add.sprite(183, 125, "walls", "walls_bottom", { shape: collisions.walls_bottom, });//.setAllowGravity(false);
+            ground.setStatic(true);
+
+            roof = this.matter.add.sprite(142, 0, 'walls', 'walls_top', { shape: collisions.walls_top, });//.setAllowGravity(false);
+            roof.setStatic(true);
 
             //strech without distortion to fit screen
             this.scale.displaySize.setAspectRatio(
@@ -49,20 +54,12 @@ export function cave():
             );
             this.scale.refresh();
 
-            //cave walls / floors;
 
             //player drawing from atlas
             sloth = this.matter.add.sprite(30, 105, "sloth", "jump1");
             sloth.setTint(0x36454f);
 
             //sloth things
-
-            //collision things
-            //wall = this.physics.add.staticGroup();
-            //wall.create(Globals.WIDTH / 2, Globals.HEIGHT / 2, "walls")
-            //.setScale(1)
-            //.refreshBody();
-            //this.physics.add.collider(sloth, wall);
 
             //animations for sloth
 
@@ -158,9 +155,58 @@ export function cave():
                 }),
                 repeat: -1,
             });
+
+            //jump
+            this.anims.create({
+                key: "jump",
+                frameRate: 20,
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "jump",
+                    start: 1,
+                    end: 9,
+                    zeroPad: 1,
+                }),
+                repeat: 0,
+            });
+
+            //jump left
+            this.anims.create({
+                key: "jump_left",
+                frameRate: 20,
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "jump_left",
+                    start: 1,
+                    end: 9,
+                    zeroPad: 1,
+                }),
+                repeat: 0,
+            });
+
+            //jump right
+            this.anims.create({
+                key: "jump_right",
+                frameRate: 20,
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "jump_right",
+                    start: 1,
+                    end: 9,
+                    zeroPad: 1,
+                }),
+                repeat: 0,
+            });
         },
 
         update() {
+            //do something
+            if (!jumping) {
+                sloth.setVelocityY(0);
+            }
+            //make sloth upright    
+            sloth.setRotation(0);
+
+            //make sloth hitbox correct
+            sloth.input?.hitArea(sloth.width, sloth.height, true);
+
             //detects keyboard inputs
             let cursors = this.input.keyboard?.addKeys({
                 up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -179,7 +225,7 @@ export function cave():
             }
 
             //right walk
-            if (cursors?.right.isDown) {
+            if (cursors?.right.isDown && !jumping) {
                 sloth.setVelocityX(1);
                 if (!crouching) {
                     sloth.anims.play("walk_right", true);
@@ -187,7 +233,7 @@ export function cave():
             }
 
             //left walk
-            if (cursors?.left.isDown) {
+            if (cursors?.left.isDown && !jumping) {
                 sloth.setVelocityX(-1);
                 if (!crouching) {
                     sloth.anims.play("walk_left", true);
@@ -229,11 +275,35 @@ export function cave():
             //uncrouch
             if (cursors?.down.isUp && crouching) {
                 crouching = false;
-                sloth.anims
-                    .playReverse("crouch", true)
-                    .on("animationcomplete", () => {
-                        sloth.anims.play("idle", true);
-                    });
+                sloth.anims.playReverse("crouch", true).on("animationcomplete", () => {
+                    sloth.anims.play("idle", true);
+                });
+            }
+
+            //jump
+            if (cursors?.up.isDown && cursors?.left.isUp && cursors?.right.isUp && onGround) {
+                jumping = true;
+                onGround = false;
+                sloth.setVelocityY(-4);
+                sloth.anims.play("jump", true);
+            }
+
+            //jump left
+            if (cursors?.up.isDown && cursors?.left.isDown && onGround) {
+                jumping = true;
+                onGround = false;
+                sloth.setVelocityY(-4);
+                sloth.setVelocityX(-1);
+                sloth.anims.play("jump_left", true);
+            }
+
+            //jump right
+            if (cursors?.up.isDown && cursors?.right.isDown && onGround) {
+                jumping = true;
+                onGround = false;
+                sloth.setVelocityY(-4);
+                sloth.setVelocityX(1);
+                sloth.anims.play("jump_right", true);
             }
         },
     };
