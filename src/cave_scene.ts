@@ -9,6 +9,8 @@ let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
 let crouching: boolean = false;
 let jumping: boolean = false;
+let feet: Phaser.Physics.Matter.Sprite;
+let canJump: boolean = true;
 
 export function cave():
     | Phaser.Types.Scenes.SettingsConfig
@@ -33,15 +35,13 @@ export function cave():
             );
         },
         create() {
-            this.matter.world.on("collisionactive", (sloth, ground) => {
-                jumping = false;
-            });
+            const feetGround = this.matter.world.nextGroup();
 
             this.matter.world.setBounds(0, 0, Globals.WIDTH, Globals.HEIGHT);
 
             let collisions = this.cache.json.get("wall_collision");
 
-            ground = this.matter.add.sprite(183, 125, "walls", "walls_bottom", { shape: collisions.walls_bottom, });//.setAllowGravity(false);
+            ground = this.matter.add.sprite(183, 125, "walls", "walls_bottom", { shape: collisions.walls_bottom, }).setCollisionGroup(feetGround);
             ground.setStatic(true);
 
             roof = this.matter.add.sprite(142, 0, 'walls', 'walls_top', { shape: collisions.walls_top, });//.setAllowGravity(false);
@@ -57,24 +57,28 @@ export function cave():
             //player drawing from atlas
             sloth = this.matter.add.sprite(30, 105, "sloth", "jump1");
             sloth.setTint(0x36454f);
-            sloth.input?.hitArea; new Phaser.Geom.Rectangle(10, 10, 20, 20),
-                //sloth things
 
 
-                //animations for sloth
+            //foot collision for sloth
+            feet = this.matter.add.sprite(30, 105, "sloth", "feet").setCollisionGroup(feetGround);
 
-                //idle
-                this.anims.create({
-                    key: "idle",
-                    frameRate: 4,
-                    frames: this.anims.generateFrameNames("sloth", {
-                        prefix: "idle",
-                        start: 1,
-                        end: 2,
-                        zeroPad: 1,
-                    }),
-                    repeat: -1,
-                });
+            this.matter.world.on("collisionactive", (event, bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
+                jumping = false;
+                canJump = true;
+            });
+
+            //idle
+            this.anims.create({
+                key: "idle",
+                frameRate: 4,
+                frames: this.anims.generateFrameNames("sloth", {
+                    prefix: "idle",
+                    start: 1,
+                    end: 2,
+                    zeroPad: 1,
+                }),
+                repeat: -1,
+            });
             //make play idle at startgame
             sloth.anims.play("idle", true);
 
@@ -197,9 +201,15 @@ export function cave():
         },
 
         update() {
-            //make sloth upright    
+            console.log(jumping, canJump);
+            //move feet to correct posisiton
+            feet.setPosition(sloth.x, sloth.y + sloth.height / 2);
+
+            //make sloth and feet upright    
             sloth.setRotation(0);
             sloth.setBounce(0);
+            feet.setRotation(0);
+            feet.setBounce(0);
 
             //make sloth hitbox correct
 
@@ -277,24 +287,27 @@ export function cave():
             }
 
             //jump
-            if (cursors?.up.isDown && cursors?.left.isUp && cursors?.right.isUp && !jumping) {
+            if (cursors?.up.isDown && cursors?.left.isUp && cursors?.right.isUp && !jumping && canJump) {
                 jumping = true;
+                canJump = false;
                 sloth.setVelocityY(-4);
                 sloth.setVelocityX(0);
                 sloth.anims.play("jump", true);
             }
 
             //jump left
-            if (cursors?.up.isDown && cursors?.left.isDown && !jumping) {
+            if (cursors?.up.isDown && cursors?.left.isDown && !jumping && canJump) {
                 jumping = true;
+                canJump = false;
                 sloth.setVelocityY(-4);
                 sloth.setVelocityX(-1);
                 sloth.anims.play("jump_left", true);
             }
 
             //jump right
-            if (cursors?.up.isDown && cursors?.right.isDown && !jumping) {
+            if (cursors?.up.isDown && cursors?.right.isDown && !jumping && canJump) {
                 jumping = true;
+                canJump = false;
                 sloth.setVelocityY(-4);
                 sloth.setVelocityX(1);
                 sloth.anims.play("jump_right", true);
