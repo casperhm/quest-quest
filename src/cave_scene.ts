@@ -9,8 +9,11 @@ let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
 let crouching: boolean = false;
 let jumping: boolean = false;
-let feet: Phaser.Physics.Matter.Sprite;
 let canJump: boolean = true;
+let zoneDown: Phaser.Physics.Matter.Sprite;
+let zoneUp: Phaser.Physics.Matter.Sprite;
+let zoneLeft: Phaser.Physics.Matter.Sprite;
+let zoneRight: Phaser.Physics.Matter.Sprite;
 
 export function cave():
     | Phaser.Types.Scenes.SettingsConfig
@@ -35,17 +38,17 @@ export function cave():
             );
         },
         create() {
-            const feetGround = this.matter.world.nextGroup();
-
             this.matter.world.setBounds(0, 0, Globals.WIDTH, Globals.HEIGHT);
 
             let collisions = this.cache.json.get("wall_collision");
 
-            ground = this.matter.add.sprite(183, 125, "walls", "walls_bottom", { shape: collisions.walls_bottom, }).setCollisionGroup(feetGround);
+            ground = this.matter.add.sprite(183, 125, "walls", "walls_bottom", { shape: collisions.walls_bottom, })
             ground.setStatic(true);
+            ground.setCollisionGroup(-1)
 
             roof = this.matter.add.sprite(142, 0, 'walls', 'walls_top', { shape: collisions.walls_top, });//.setAllowGravity(false);
             roof.setStatic(true);
+            roof.setCollisionGroup(-1)
 
             //strech without distortion to fit screen
             this.scale.displaySize.setAspectRatio(
@@ -57,15 +60,24 @@ export function cave():
             //player drawing from atlas
             sloth = this.matter.add.sprite(30, 105, "sloth", "jump1");
             sloth.setTint(0x36454f);
+            sloth.setCollisionGroup(-1)
+           
+            //zones for sloth collision
+            //let zoneDown = this.add.zone(sloth.x + sloth.width / 2, sloth.y + sloth.height / 2, sloth.width, 1);
+            //let zoneUp = this.add.zone(sloth.x + sloth.width / 2, sloth.y - sloth.height / 2, sloth.width, 1);
+            //let zoneLeft = this.add.zone(sloth.x - sloth.width / 2, sloth.y, 1, sloth.height);
+            //let zoneRight = this.add.zone(sloth.x + sloth.width / 2, sloth.y, 1, sloth.height);
+            
+            //sprites for sloth collision
+            zoneDown = this.matter.add.sprite(sloth.x + sloth.width / 2, sloth.y + sloth.height / 2, "sloth", "zone");
+            zoneUp = this.matter.add.sprite(sloth.x + sloth.width / 2, sloth.y - sloth.height / 2, "sloth", "zone");
+            zoneLeft = this.matter.add.sprite(sloth.x - sloth.width / 2, sloth.y + sloth.height / 2, "sloth", "Left");
+            zoneRight = this.matter.add.sprite(sloth.x + sloth.width / 2, sloth.y + sloth.height / 2, "sloth", "Left");
 
-
-            //foot collision for sloth
-            feet = this.matter.add.sprite(30, 105, "sloth", "feet").setCollisionGroup(feetGround);
-
-            this.matter.world.on("collisionactive", (event, bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
-                jumping = false;
-                canJump = true;
-            });
+            //this.matter.world.on("collisionactive", (event, bodyA: MatterJS.BodyType, bodyB: MatterJS.BodyType) => {
+                //jumping = false;
+                //canJump = true;
+            //});
 
             //idle
             this.anims.create({
@@ -201,17 +213,44 @@ export function cave():
         },
 
         update() {
-            console.log(jumping, canJump);
-            //move feet to correct posisiton
-            feet.setPosition(sloth.x, sloth.y + sloth.height / 2);
+            console.log(jumping, canJump,);
 
-            //make sloth and feet upright    
-            sloth.setRotation(0);
-            sloth.setBounce(0);
-            feet.setRotation(0);
-            feet.setBounce(0);
+            //make sloth upright    
+            sloth.setRotation(0)
+            sloth.setBounce(0)
+            zoneDown.setRotation(0)
+            zoneDown.setBounce(0)
+            zoneUp.setRotation(0)
+            zoneUp.setBounce(0)
+            zoneLeft.setRotation(0)
+            zoneLeft.setBounce(0)
+            zoneRight.setRotation(0)
+            zoneRight.setBounce(0)
+            
+            //make zones invisible
+            zoneDown.visible = false
+            zoneUp.visible = false
+            zoneLeft.visible = false
+            zoneRight.visible = false
 
-            //make sloth hitbox correct
+            zoneDown.setCollisionGroup(1)
+            zoneUp.setCollisionGroup(1)
+            zoneLeft.setCollisionGroup(1)
+            zoneRight.setCollisionGroup(1)
+
+            //when zonedown collide jump is finished
+            zoneDown.setOnCollide(jumpComplete)
+
+            function jumpComplete(){
+                jumping = false
+                canJump = true
+            }
+
+            //make sloth hitbox right possition
+            zoneDown.setPosition(sloth.x, sloth.y + sloth.height / 2);
+            zoneUp.setPosition(sloth.x, sloth.y - sloth.height / 2);
+            zoneLeft.setPosition(sloth.x - sloth.width / 2, sloth.y);
+            zoneRight.setPosition(sloth.x + sloth.width / 2, sloth.y);
 
             //detects keyboard inputs
             let cursors = this.input.keyboard?.addKeys({
