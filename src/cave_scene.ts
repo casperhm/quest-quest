@@ -41,11 +41,9 @@ export function cave():
                 Globals.WIDTH / Globals.HEIGHT
             );
             this.scale.refresh();
-
+           
             //player drawing from atlas
-            let sloth = this.add
-                .sprite(30, 85, "sloth", "jump1")
-                .setTint(0x36454f)
+            sloth = this.add.sprite(30, 85, "sloth", "jump1").setTint(0x36454f)
 
             this.physics.add.collider(sloth, platforms);
 
