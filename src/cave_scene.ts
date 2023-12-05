@@ -31,9 +31,9 @@ export function cave():
         create() {
             platforms = this.physics.add.staticGroup();
 
-            platforms.create(Globals.WIDTH/2, 130, "walls", "ground").refreshBody();
+            platforms.create(Globals.WIDTH/2, 135, "walls", "ground").refreshBody();
             platforms.create(Globals.WIDTH/2, 10, "walls", "roof").refreshBody();
-            platforms.create(150, 95, "walls", "spike1").refreshBody();
+            platforms.create(150, 100, "walls", "spike1").refreshBody();
             platforms.create(82, 42, "walls", "spike2").refreshBody();
 
             //strech without distortion to fit screen
@@ -43,7 +43,7 @@ export function cave():
             this.scale.refresh();
            
             //player drawing from atlas
-            sloth = this.add.sprite(30, 85, "sloth", "jump1").setTint(0x36454f)
+            sloth = this.physics.add.sprite(30, 85, "sloth", "jump1").setTint(0x36454f).setGravityY(300)
 
             this.physics.add.collider(sloth, platforms);
 
@@ -68,7 +68,9 @@ export function cave():
                 repeat: -1,
             });
             //make play idle at startgame
-            sloth.anims.play("idle", true);
+            if (touchingGround) {
+                sloth.anims.play("idle", true);
+            }
 
             //walk right
             this.anims.create({
@@ -191,6 +193,16 @@ export function cave():
         },
 
         update() {
+            console.log(touchingGround)
+            //is touching ground?
+            if (sloth.body?.touching.down){
+                touchingGround = true
+            }else{
+                touchingGround = false
+            }
+            //make sloth corredct widhts and heights
+            sloth.body?.setSize(sloth.frame.width, sloth.frame.height)
+            
             //detect faceing left/right
             if (cursors?.right.isDown) {
                 faceingRight = true;
@@ -202,7 +214,7 @@ export function cave():
 
             //right walk
             if (cursors?.right.isDown && touchingGround) {
-                sloth.setVelocityX(1);
+                sloth.setVelocityX(80);
                 if (!crouching) {
                     sloth.anims.play("walk_right", true);
                 }
@@ -210,7 +222,7 @@ export function cave():
 
             //left walk
             if (cursors?.left.isDown && touchingGround) {
-                sloth.setVelocityX(-1);
+                sloth.setVelocityX(-80);
                 if (!crouching) {
                     sloth.anims.play("walk_left", true);
                 }
@@ -218,7 +230,7 @@ export function cave():
 
             //idle animation / turn to centre
             if (cursors?.right.isUp && cursors?.left.isUp) {
-                //sloth.setVelocityX(0);
+                sloth.setVelocityX(0);
                 //turn to centre
                 if (faceingRight && !crouching) {
                     sloth.anims
@@ -265,7 +277,7 @@ export function cave():
                 cursors?.right.isUp &&
                 touchingGround
             ) {
-                sloth.setVelocityY(-4);
+                sloth.setVelocityY(-180);
                 sloth.setVelocityX(0);
                 sloth.anims.play("jump", true);
             }
@@ -276,8 +288,8 @@ export function cave():
                 cursors?.left.isDown &&
                 touchingGround
             ) {
-                sloth.setVelocityY(-4);
-                sloth.setVelocityX(-1);
+                sloth.setVelocityY(-180);
+                sloth.setVelocityX(-100);
                 sloth.anims.play("jump_left", true);
             }
 
@@ -287,8 +299,8 @@ export function cave():
                 cursors?.right.isDown &&
                 touchingGround
             ) {
-                sloth.setVelocityY(-4);
-                sloth.setVelocityX(1);
+                sloth.setVelocityY(-180);
+                sloth.setVelocityX(100);
                 sloth.anims.play("jump_right", true);
             }
         },
