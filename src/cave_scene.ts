@@ -2,9 +2,9 @@ import "phaser";
 import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
-let roof: Phaser.Physics.Matter.Sprite;
-let ground: Phaser.Physics.Matter.Sprite;
-let sloth: Phaser.Physics.Matter.Sprite;
+let roof: any;
+let ground: any;
+let sloth: Phaser.Physics.Arcade.Sprite;
 let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
 let crouching: boolean = false;
@@ -22,10 +22,6 @@ export function cave():
                 "/img/backrounds/walls.json"
             );
 
-            this.load.json(
-                "wall_collision",
-                "/img/backrounds/wall_collision.json"
-            );
 
             this.load.atlas(
                 "sloth",
@@ -34,24 +30,14 @@ export function cave():
             );
         },
         create() {
-            this.matter.world.setBounds(0, 0, Globals.WIDTH, Globals.HEIGHT);
+            ground = this.physics.add.staticGroup();
 
-            let collisions = this.cache.json.get("wall_collision");
+            ground.create(400, 568, 'ground').setScale(2).refreshBody();
 
-            ground = this.matter.add
-                .sprite(183, 125, "walls", "walls_bottom", {
-                    shape: collisions.walls_bottom,
-                })
-                .setStatic(true)
-                .setCollisionCategory(1);
+            roof = this.physics.add.staticGroup();
 
-            roof = this.matter.add
-                .sprite(142, 0, "walls", "walls_top", {
-                    shape: collisions.walls_top,
-                })
-                .setStatic(true)
-                .setCollisionCategory(1);
-
+            roof.create(400, 568, 'ground').setScale(2).refreshBody();
+            
             //strech without distortion to fit screen
             this.scale.displaySize.setAspectRatio(
                 Globals.WIDTH / Globals.HEIGHT
@@ -59,11 +45,9 @@ export function cave():
             this.scale.refresh();
 
             //player drawing from atlas
-            sloth = this.matter.add
+            sloth = this.add
                 .sprite(30, 105, "sloth", "jump1")
                 .setTint(0x36454f)
-                .setCollisionGroup(2)
-                .setFixedRotation();
 
             //detects keyboard inputs
             cursors = this.input.keyboard?.addKeys({
@@ -205,13 +189,7 @@ export function cave():
                 repeat: 0,
             });
 
-            this.matter.world.on("collisionactive", () => {
-                touchingGround = true;
-            });
-
-            this.matter.world.on("collisionend", () => {
-                touchingGround = false;
-            });
+            
         },
 
         update() {

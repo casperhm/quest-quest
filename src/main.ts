@@ -15,8 +15,8 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
         keyboard: true,
     },
     physics: {
-        default: "matter",
-        matter: {
+        default: "arcade",
+        arcade: {
             gravity: { y: 0.5 },
             debug: true,
         },
