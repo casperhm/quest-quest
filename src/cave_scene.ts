@@ -2,8 +2,7 @@ import "phaser";
 import * as Globals from "./globals";
 export const menuSceneKey = "MenuScene";
 
-let roof: any;
-let ground: any;
+let platforms: Phaser.Physics.Arcade.StaticGroup;
 let sloth: Phaser.Physics.Arcade.Sprite;
 let faceingLeft: boolean = false;
 let faceingRight: boolean = false;
@@ -30,14 +29,13 @@ export function cave():
             );
         },
         create() {
-            ground = this.physics.add.staticGroup();
+            platforms = this.physics.add.staticGroup();
 
-            ground.create(400, 568, 'ground').setScale(2).refreshBody();
+            platforms.create(Globals.WIDTH/2, 130, "walls", "ground").refreshBody();
+            platforms.create(Globals.WIDTH/2, 10, "walls", "roof").refreshBody();
+            platforms.create(150, 95, "walls", "spike1").refreshBody();
+            platforms.create(82, 42, "walls", "spike2").refreshBody();
 
-            roof = this.physics.add.staticGroup();
-
-            roof.create(400, 568, 'ground').setScale(2).refreshBody();
-            
             //strech without distortion to fit screen
             this.scale.displaySize.setAspectRatio(
                 Globals.WIDTH / Globals.HEIGHT
@@ -45,9 +43,11 @@ export function cave():
             this.scale.refresh();
 
             //player drawing from atlas
-            sloth = this.add
-                .sprite(30, 105, "sloth", "jump1")
+            let sloth = this.add
+                .sprite(30, 85, "sloth", "jump1")
                 .setTint(0x36454f)
+
+            this.physics.add.collider(sloth, platforms);
 
             //detects keyboard inputs
             cursors = this.input.keyboard?.addKeys({
@@ -220,7 +220,7 @@ export function cave():
 
             //idle animation / turn to centre
             if (cursors?.right.isUp && cursors?.left.isUp) {
-                sloth.setVelocityX(0);
+                //sloth.setVelocityX(0);
                 //turn to centre
                 if (faceingRight && !crouching) {
                     sloth.anims

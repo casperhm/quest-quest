@@ -23,7 +23,7 @@ body {
 }
 
 canvas {
-    background-image: url('backrounds/backround.gif');
+    background-image: url('/img/backrounds/backround.gif');
     background-repeat: no-repeat;
     background-size: cover;
 }
