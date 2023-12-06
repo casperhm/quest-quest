@@ -29,6 +29,7 @@ export function cave():
             );
         },
         create() {
+            
             platforms = this.physics.add.staticGroup();
 
             platforms.create(Globals.WIDTH/2, 135, "walls", "ground").refreshBody();
